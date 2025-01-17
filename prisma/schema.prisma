@@ -1,0 +1,11 @@
+// prisma/schema.prisma
+model UploadedFile {
+  id          String   @id @default(cuid())
+  filename    String
+  originalName String
+  filepath    String
+  size        Int
+  type        String
+  uploadedAt  DateTime @default(now())
+  status      String   @default("pending") // pending, processing, processed, error
+}
