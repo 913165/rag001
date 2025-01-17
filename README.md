@@ -1,36 +1,256 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RAG as a Service Implementation
+
+A modern Next.js application that implements Retrieval-Augmented Generation (RAG) as a service with a user-friendly interface.
+
+## Features
+
+- 📁 Document Upload System
+- 🔄 Document Processing Pipeline
+- 💾 Vector Storage Integration
+- 🔍 Query Processing
+- 🤖 LLM Integration
+- 🚀 API Endpoints
+
+## Tech Stack
+
+- **Framework**: Next.js 14 with App Router
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Icons**: Lucide React
+- **Type Safety**: TypeScript
+
+## Project Structure
+
+```
+rag-service/
+├── app/
+│   ├── api/
+│   │   ├── files/
+│   │   │   ├── route.ts
+│   │   │   └── [filename]/
+│   │   │       └── route.ts
+│   │   └── upload/
+│   │       └── route.ts
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   └── rag/
+│       ├── constants/
+│       │   ├── llmOptions.ts
+│       │   └── steps.ts
+│       ├── upload/
+│       │   └── FileUploader.tsx
+│       ├── sections/
+│       │   ├── Sidebar.tsx
+│       │   └── MainContent.tsx
+│       └── RAGStepsUI.tsx
+├── uploads/                # File storage directory
+└── types/
+    └── index.ts
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm/yarn
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd rag-service
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up required packages:
+```bash
+# Install UI components
+npm install @radix-ui/react-slot
+npm install lucide-react
+npm install class-variance-authority
+npm install clsx
+npm install tailwind-merge
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Install shadcn/ui components
+npx shadcn-ui@latest init
+npx shadcn-ui@latest add card
+```
 
-## Learn More
+4. Create the uploads directory:
+```bash
+mkdir uploads
+```
 
-To learn more about Next.js, take a look at the following resources:
+5. Run the development server:
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Core Components
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 1. File Upload System
+- Drag and drop functionality
+- Multiple file support
+- Progress tracking
+- File type validation
+- Existing files management
 
-## Deploy on Vercel
+```typescript
+// Usage example
+<FileUploader 
+  onFilesSelected={(files) => console.log('Selected:', files)}
+  onUploadComplete={(fileInfos) => console.log('Complete:', fileInfos)}
+/>
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 2. Document Processing
+- Support for multiple file types:
+  - PDF (.pdf)
+  - Word Documents (.docx, .doc)
+  - Text Files (.txt)
+  - Markdown (.md)
+  - CSV (.csv)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. LLM Integration
+Supported providers:
+- OpenAI
+- Anthropic Claude
+- Cohere
+- Mistral AI
+- LlamaV2
+- Google Vertex AI
+
+### 4. Vector Storage
+Supported databases:
+- Pinecone
+- Weaviate
+- Milvus
+- Chroma
+
+## API Endpoints
+
+### File Management
+
+```typescript
+// Upload files
+POST /api/upload
+Content-Type: multipart/form-data
+
+// List files
+GET /api/files
+
+// Delete file
+DELETE /api/files/:filename
+```
+
+### RAG Operations
+
+```typescript
+// Process query
+POST /api/rag/query
+{
+  "query": string,
+  "options": {
+    "temperature": number,
+    "maxTokens": number
+  }
+}
+
+// Process documents
+POST /api/rag/process
+{
+  "files": string[],
+  "options": {
+    "chunkSize": number,
+    "overlap": number
+  }
+}
+```
+
+## Implementation Steps
+
+1. **Document Upload**
+   - File selection and validation
+   - Upload status tracking
+   - File management interface
+
+2. **Document Ingestion**
+   - Text extraction
+   - Chunking configuration
+   - LLM provider selection
+
+3. **Vector Storage**
+   - Database selection
+   - Embedding generation
+   - Storage configuration
+
+4. **Query Processing**
+   - Query optimization
+   - Context retrieval
+   - Response generation
+
+5. **API Integration**
+   - Endpoint configuration
+   - Authentication setup
+   - Rate limiting
+
+## Configuration
+
+Update `next.config.js`:
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  webpack: (config) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+    };
+    return config;
+  },
+}
+
+module.exports = nextConfig
+```
+
+## Security Considerations
+
+- File type validation
+- Size limits
+- API authentication
+- Rate limiting
+- Secure file storage
+
+## Development
+
+### Adding New Features
+
+1. Create component in appropriate directory
+2. Update types if necessary
+3. Add to steps configuration
+4. Implement API endpoints if required
+
+### Testing
+
+1. Component testing
+2. API endpoint testing
+3. File processing testing
+4. Integration testing
+
+## Contributing
+
+1. Fork the repository
+2. Create feature branch
+3. Commit changes
+4. Push to branch
+5. Create Pull Request
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
