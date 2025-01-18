@@ -4,6 +4,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { llmOptions } from '../llmoptions';
 import { useState } from 'react';
+import { FileUploadInfo } from '../../../upload/FileUploadInfo';
 
 export const IngestionImplementation = [
   {
@@ -57,20 +58,20 @@ export const IngestionImplementation = [
     )
   },
   {
-    title: "Processing Configuration",
+    title: "List of files",
     description: "Configure document processing parameters",
-    code: `// Document Processing Configuration
-const config = {
-  chunkSize: 1000,
-  chunkOverlap: 200,
-  encoding: 'cl100k_base',
-  processingMode: 'semantic',
-  languageDetection: true,
-  preserveMarkdown: true
-};
-
-// Initialize Document Processor
-const processor = await DocumentProcessor.initialize(config);`
+    component: (
+        <div className="max-w-2xl mx-auto">
+        <FileUploadInfo 
+          onFilesSelected={(files) => {
+            console.log('Selected files:', files);
+          }}
+          onUploadComplete={(fileInfos) => {
+            console.log('Upload complete:', fileInfos);
+          }}
+        />
+        </div>
+    )
   }
 ];
 

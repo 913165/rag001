@@ -2,6 +2,19 @@
 
 import React, { useState } from 'react';
 import { steps } from './constants/steps/steps';
+
+interface Step {
+    title: string;
+    icon: React.ComponentType;
+    content: {
+        overview: string;
+        implementation: {
+            title: string;
+            description: string;
+            component?: React.ReactNode;
+        }[];
+    };
+}
 import { Card, CardContent } from '@/components/ui/card';
 
 
@@ -42,7 +55,7 @@ export const RAGStepsUI: React.FC = () => {
                 </div>
                 {/* Implementation sections */}
                 <div className="space-y-6">
-                     {steps[activeStep].content.implementation && steps[activeStep].content.implementation.map((impl, index) => (
+                     {Array.isArray(steps[activeStep].content.implementation) && steps[activeStep].content.implementation.map((impl: Step['content']['implementation'][number], index: number) => (
                             <Card key={index}>
                                 <CardContent className="p-6">
                                     <div className="flex items-center gap-2 mb-3">
