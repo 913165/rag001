@@ -110,39 +110,43 @@ export const FileUploadInfo = ({ onFilesSelected, onUploadComplete }: FileUpload
       <CardContent className="p-6">
         {/* Existing Files */}
         {existingFiles.length > 0 && (
-            <div className="mt-6 space-y-3">
-            <h4 className="font-medium text-gray-700">Uploaded Files</h4>
-            {existingFiles.map((file, index) => (
-              <div 
-              key={`${file.name}-${index}`}
-              className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-              >
-              <div className="flex items-center space-x-3">
-                <input
-                type="checkbox"
-                className="form-checkbox h-4 w-4 text-blue-600"
-                />
-                <File className="w-5 h-5 text-blue-500" />
-                <div>
-                <p className="text-sm font-medium text-gray-700">{file.name}</p>
-                <p className="text-xs text-gray-500">
-                  {(file.size / 1024 / 1024).toFixed(2)} MB • 
-                  {new Date(file.uploadedAt).toLocaleDateString()}
-                </p>
-                </div>
-              </div>
-              <button
-                onClick={() => deleteFile(file.name)}
-                className="p-1 hover:bg-gray-200 rounded-full"
-              >
-                <X className="w-4 h-4 text-gray-500" />
-              </button>
-              </div>
-            ))}
+          <div className="mt-6 space-y-3">
+        <h4 className="font-medium text-gray-700">Uploaded Files</h4>
+        {existingFiles.map((file, index) => (
+          <div 
+            key={`${file.name}-${index}`}
+            className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+          >
+            <div className="flex items-center space-x-3">
+          <input
+            type="checkbox"
+            className="form-checkbox h-4 w-4 text-blue-600"
+          />
+          <File className="w-5 h-5 text-blue-500" />
+          <div>
+            <p className="text-sm font-medium text-gray-700">{file.name}</p>
+            <p className="text-xs text-gray-500">
+              {(file.size / 1024 / 1024).toFixed(2)} MB • 
+              {new Date(file.uploadedAt).toLocaleDateString()}
+            </p>
+          </div>
             </div>
+            <button
+          onClick={() => deleteFile(file.name)}
+          className="p-1 hover:bg-gray-200 rounded-full"
+            >
+          <X className="w-4 h-4 text-gray-500" />
+            </button>
+          </div>
+        ))}
+        <button
+          onClick={() => console.log('Submit selected files')}
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          Submit Selected Files
+        </button>
+          </div>
         )}
-
-       
       </CardContent>
     </Card>
   );
