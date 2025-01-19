@@ -42,11 +42,11 @@ const queryFeatures = [
 
 const QuerySearchComponent = () => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<{ content: string }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSearch = async (e) => {
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!query.trim()) return;
 
@@ -62,14 +62,20 @@ const QuerySearchComponent = () => {
         body: JSON.stringify({ query: query.trim() }),
       });
 
+      console.log("Response from query search:", response.body);
+
       if (!response.ok) {
         throw new Error('Failed to process query');
       }
 
       const data = await response.json();
-      setResults(data.results);
+      console.log("Data from query search:", data);
+
+      console.log("Data from query search: content", data.content[0]);
+
+      setResults(data.content);
     } catch (err) {
-      setError(err.message);
+      setError((err as Error).message);
     } finally {
       setIsLoading(false);
     }
@@ -110,26 +116,22 @@ const QuerySearchComponent = () => {
           </Alert>
         )}
 
-        {results.length > 0 && (
-          <div className="space-y-4">
-            <h4 className="text-md font-semibold">Search Results</h4>
-            {results.map((result, index) => (
-              <Card key={index} className="border border-gray-200">
-                <CardContent className="p-4">
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium">
-                      Score: {(result.score * 100).toFixed(2)}%
-                    </p>
-                    <p className="text-sm">{result.content}</p>
-                    <p className="text-xs text-gray-500">
-                      Source: {result.metadata?.source || 'Unknown'}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+        <div className="space-y-4">
+          <h4 className="text-md font-semibold">Search Results</h4>
+          <div className="border border-gray-200 p-4">
+
+            {results && results.length > 0 ? (
+              
+              results.map((result, index) => (
+              
+                <p key={index} className="text-sm">result :{String(result)}</p>
+                
+              ))
+            ) : (
+              <p className="text-sm text-gray-500">No results found.</p>
+            )}
           </div>
-        )}
+        </div>
       </CardContent>
     </Card>
   );
