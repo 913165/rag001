@@ -1,9 +1,10 @@
 // components/rag/constants/steps.tsx
-import { Database, FileText, Search, Binary, Bot, Settings, Upload } from 'lucide-react';
+import { Database, FileText, Search, Binary, Bot, Settings, Upload, MessageSquare } from 'lucide-react';
 import { FileUploadImplementation } from '../steps/upload/FileUploadStep';
 import { IngestionImplementation } from '../steps/ingestion/IngestionStep';
 import { VectorStorageImplementation } from '../steps/vector/VectorStorageStep';
 import { QueryImplementation } from '../steps/query/QueryStep';
+import { ChatImplementation } from '../steps/chat/ChatStep';
 import { ApiImplementation } from '../steps/api/ApiStep';
 
 export const steps = [
@@ -41,6 +42,15 @@ export const steps = [
     content: {
       overview: "Configure query processing...",
       implementation: QueryImplementation
+    }
+  },
+  {
+    title: "Interactive Chat",
+    description: "Engage in context-aware conversations",
+    icon: MessageSquare,
+    content: {
+      overview: "Interact with documents through natural conversation...",
+      implementation: ChatImplementation
     }
   },
   {
