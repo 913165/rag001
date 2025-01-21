@@ -4,7 +4,7 @@ import { FileUploadImplementation } from '../steps/upload/FileUploadStep';
 import { IngestionImplementation } from '../steps/ingestion/IngestionStep';
 import { VectorStorageImplementation } from '../steps/vector/VectorStorageStep';
 import { QueryImplementation } from '../steps/query/QueryStep';
-import { ChatImplementation } from '../steps/chat/ChatStep';
+import { ChatImplementation } from './ChatStep/ChatStep';
 import { ApiImplementation } from '../steps/api/ApiStep';
 
 export const steps = [
